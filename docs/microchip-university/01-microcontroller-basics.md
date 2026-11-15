@@ -88,6 +88,12 @@ Header files let your C code access microcontroller hardware registers.
 | `reg ^= mask` | Toggle selected bits |
 | `reg & mask` | Test whether selected bits are set |
 
+### 3. Synchronous and Asynchronous Clocks
+The SAMD51 has different clock domains and can safely communicate between them.
+- **Synchronous clocks control the CPU and system buses.** On the SAMD51, these clocks are managed by the Main Clock Controller (`MCLK`). They keep the CPU and bus interfaces operating in their respective clock domains.
+- **Asynchronous clocks allow peripherals to operate independently.** The Generic Clock Controller (`GCLK`) provides clocks to peripheral cores, such as timers and ADCs. These clocks can differ in frequency from the CPU clock.
+- **Many peripherals use two types of clocks.** A synchronous bus clock allows the CPU to access peripheral registers, while an asynchronous generic clock drives the peripheral's internal operation.
+- **Different clock domains require synchronization.** When the CPU accesses certain registers in another clock domain, the hardware must safely transfer the information between domains.
 
 ## 4. Important Registers
 

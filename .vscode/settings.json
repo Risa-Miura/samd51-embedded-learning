@@ -8,5 +8,6 @@
   "search.exclude": {
     "site": true,
     ".venv": true
-  }
+  },
+  "mplab.clangd.compileCommandsDir": "${workspaceFolder}/projects/01-led-blink/samd51-blink/_build/samd51-blink/default"
 }
