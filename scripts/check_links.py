@@ -54,9 +54,6 @@ def main():
                 continue
             if target.is_dir():
                 target /= "index.html"
-            # Material's 404 page uses location-dependent relative assets; the
-            # template renders them against the site's base URL. Normal pages
-            # and their fragment links are still checked here.
             if not target.is_file():
                 failures.append((source, link, "missing file"))
             elif url.fragment and target in pages and unquote(url.fragment) not in pages[target].ids:
