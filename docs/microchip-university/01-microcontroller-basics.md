@@ -1,30 +1,93 @@
 # Microcontroller basics
 
-**Status:** Not started
+**Status:** In Progress
 
-**Study date:** To record
+**Study date:** 14-Nov-2026
 
-**Course module / timestamp:** To record
+## Overview
 
-**Board / core version / commit:** To record
+1. Clock Domains and Bus Types
+2. Compiler Header File Structure
 
-!!! note "Editable learning template"
-    The prompts below are preparation for study. Replace them with my own explanations and evidence. No lesson completion, hardware implementation, or results are claimed.
+## Key Concepts
 
-## 1. Overview
+### 1. Clock Domains and Bus Types
+Clocks control hardware timing and buses allow different components of the microcontroller to communicate.
+- **Clocks determine how fast hardware operates.** A clock generates periodic signals that synchronize operations.
+- **Different components can use different clock frequencies.**
+- **Clock domains group hardware operating from particular clock signals.** Different domains allow components to operate at different frequencies, helping balance performance and power consumption.
+- **Clock generators and dividers control clock frequencies.** They derive appropriate frequencies from clock sources for different parts of the microcontroller.
+- **Peripherals require appropriate clock configuration.** A peripheral may not work if its clock is disabled or incorrectly configured.
+- **Buses allow hardware components to communicate.** They transfer data, addresses, and control information between the CPU, memory, and peripherals.
 
-What question does this lesson answer? Summarize the relevant module and its scope.
+#### Clock Distribution
 
-## 2. Learning Objectives
+```mermaid
+flowchart TD
+    A["Clock Source<br/>Generates timing signals"]
+    B["Clock Generator / Divider<br/>Sets clock frequencies"]
 
-- Explain CPU, Flash, SRAM, peripheral address space, and what happens between reset and main().
-- Describe one observation that would demonstrate understanding.
+    C["CPU<br/>Executes instructions"]
+    D["Timer<br/>Counts ticks"]
+    E["Peripherals<br/>Operate hardware"]
 
-## 3. Key Concepts
+    A --> B
+    B --> C
+    B --> D
+    B --> E
 
-Trace the vector table, stack initialization, startup code, and the core's memory-mapped peripheral access.
+    style A fill:#243447,stroke:#60a5fa,color:#fff
+    style B fill:#243447,stroke:#60a5fa,color:#fff
+    style C fill:#1e4034,stroke:#4ade80,color:#fff
+    style D fill:#1e4034,stroke:#4ade80,color:#fff
+    style E fill:#1e4034,stroke:#4ade80,color:#fff
+```
 
-Add a diagram, describe assumptions, and distinguish datasheet facts from hypotheses.
+#### Significance
+- **Timing:** Generating precise signals to synchronize image acquisition and other hardware operations.
+- **Performance:** Understanding how CPU frequency, peripheral clocks, and bus bandwidth influence execution speed.
+- **DMA:** Transferring data between memory and peripherals without requiring the CPU to perform every transfer.
+- **Peripheral configuration:** Ensuring clocks are enabled and configured correctly for GPIO, timers, and communication interfaces.
+- **Power optimization:** Reducing unnecessary clock activity to save energy.
+
+### 2. Compiler Header File Structure
+Header files let your C code access microcontroller hardware registers.
+- **Header files (`.h`) contain declarations and definitions.**
+- **`#include <xc.h>` provides access to device-specific definitions.**
+- **Hardware registers are memory-mapped.** Each register exists at a specific address, and header files give you readable names to access them.
+- **Structs and pointers organize peripheral registers.** For example, `OSC32KCTRL_REGS->OSC32KCTRL_STATUS` accesses the STATUS register of the oscillator control peripheral.
+- **Bit masks let you manipulate individual register bits.** You can configure hardware without manually calculating every register address.
+
+#### Significance
+- **Reading firmware:** Understanding expressions like `PERIPHERAL_REGS->REGISTER`.
+- **GPIO:** Finding registers that configure hardware pins.
+- **Timers and interrupts:** Understanding the register definitions used to configure timing and event handling.
+- **DMA:** Identifying registers and bit masks used for data transfers.
+- **Debugging:** Looking up register definitions when investigating unexpected peripheral behavior.
+
+#### C Pointers Refresher
+
+| Symbol | Meaning | Example |
+|---|---|---|
+| `&` | Get address of variable | `&x` |
+| `*` (declaration) | Declare a pointer | `int *p;` |
+| `*` (dereference) | Access value at address | `*p` |
+| `->` | Access struct member through pointer | `p->value` |
+| `.` | Access struct member directly | `s.value` |
+| `NULL` | Pointer that points to nothing | `int *p = NULL;` |
+| `[]` | Access array element (also works with pointers) | `p[0]` |
+| `void *` | Generic object pointer | `void *p;` |
+
+#### Manipulating Bits
+
+| Expression | Meaning |
+|---|---|
+| `1u << n` | Create a mask for bit `n` |
+| `reg \|= mask` | Set selected bits |
+| `reg &= ~mask` | Clear selected bits |
+| `reg ^= mask` | Toggle selected bits |
+| `reg & mask` | Test whether selected bits are set |
+
 
 ## 4. Important Registers
 
