@@ -22,7 +22,7 @@ The optional notebook supports both an empty real-data input and a labelled synt
 ## Initial software checks — November 14, 2026
 
 - MkDocs 1.6.1 / Material 9.7.0: strict clean build passed locally on Python 3.14.6. The deployment workflow uses Python 3.13.
-- Rendered site: 24 HTML pages and 1,469 internal links/assets/fragments passed the offline checker.
+- Rendered site: 24 HTML pages and all internal links/assets/fragments passed the offline checker.
 - Workflow structure: main/PR triggers, build dependency, and Pages deployment permissions checked. See the GitHub Actions run for the exact deployed commit and hosted outcome.
 - Notebook: schema valid; empty CSV, labelled synthetic plotting, CSV import, and invalid elapsed-time rejection checked. Committed outputs remain empty.
 - Blink: compiled successfully using Arduino CLI 1.6.0, Adafruit SAMD Boards 1.7.17, and ARM GCC 9.2.1 for `adafruit:samd:adafruit_grandcentral_m4`. The compiler reported 12,364 bytes of program storage. This is a build artifact size, not a hardware performance measurement.

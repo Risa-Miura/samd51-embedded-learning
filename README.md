@@ -12,7 +12,7 @@ I am a UCLA undergraduate research assistant in the Aharoni Lab, working toward 
 
 **Notebook scaffold.** Eight editable topic templates, one Arduino blink sketch, three future-project specifications, and an optional benchmark analysis notebook are provided. Lessons have not been marked complete. Hardware upload, observations, and performance measurements remain pending. Research connections are questions to investigate, not claims about the current Miniscope Zero implementation.
 
-See [validation and evidence](docs/validation.md) for software checks versus hardware work still needed. The website link is the configured Pages destination; initial availability depends on successful publication.
+See [validation and evidence](docs/validation.md) for software checks versus hardware work still needed. GitHub Actions builds and publishes the journal to GitHub Pages whenever `main` changes.
 
 ## Hardware
 
