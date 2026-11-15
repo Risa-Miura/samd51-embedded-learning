@@ -1,0 +1,6 @@
+# Optional analysis environment; never used by the documentation workflow.
+jupyterlab==4.5.9
+ipykernel==6.31.0
+numpy==2.4.6
+pandas==3.0.3
+matplotlib==3.11.0

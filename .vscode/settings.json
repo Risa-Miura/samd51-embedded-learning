@@ -1,0 +1,12 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "files.insertFinalNewline": true,
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  "search.exclude": {
+    "site": true,
+    ".venv": true
+  }
+}
