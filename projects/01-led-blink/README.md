@@ -60,9 +60,15 @@ The ordinary onboard LED should be high for about 500 ms and low for about 500 m
 | --- | --- | --- | --- |
 | Pending | Not recorded | Not measured | Not recorded |
 
-## Later bare-metal implementation
+## MPLAB bare-metal example
 
-Retain this Arduino baseline. A future version should identify the LED's PORT group/bit from the variant and schematic, explain direction/output registers and startup/clock ownership, and document the bootloader-aware memory layout. Do not replace the bootloader as part of this first exercise.
+A separate [SAMD51 blink project](samd51-blink/README.md) now lives in `samd51-blink/`. Open that folder in VS Code using the MPLAB profile. It targets ATSAMD51P20A with XC32 v2.50 and builds independently of the original SAME54 `Lab1.X` project. Its ordinary onboard LED is PB01/D13.
+
+The MPLAB image uses the default address-zero reset layout. Read its flashing prerequisites before programming: it requires an appropriate SWD probe and can overwrite the USB bootloader. The Arduino baseline above remains the USB-upload example. Hardware verification of the new MPLAB example is pending.
+
+## Later bootloader-aware implementation
+
+Retain this Arduino baseline. A future MPLAB version should implement and verify a bootloader-aware memory layout before using USB upload. Do not replace the bootloader as part of the Arduino exercise.
 
 ## References
 

@@ -1,0 +1,105 @@
+{
+    "version": "1.9",
+    "importedFrom": "./",
+    "configurations": [
+        {
+            "name": "default",
+            "id": "",
+            "device": "ATSAME54P20A",
+            "imageType": "application",
+            "imagePath": "./out/Lab1/default.elf",
+            "toolProperties": "default-tool",
+            "tool": "EdbgTool",
+            "packs": [
+                {
+                    "name": "SAME54_DFP",
+                    "vendor": "Microchip",
+                    "version": "3.5.87"
+                }
+            ],
+            "fileSet": "Project files",
+            "toolchain": "default-XC32",
+            "includeLegacyMacros": true
+        }
+    ],
+    "propertyGroups": [
+        {
+            "name": "default-XC32",
+            "type": "toolchain",
+            "provider": "microchip.toolchains:xc32@2.50",
+            "properties": {
+                "compiler.enable-symbols": true,
+                "compiler.extra-include-directories": ".",
+                "compiler.post-instruction-scheduling": "default",
+                "compiler.pre-instruction-scheduling": "default",
+                "compiler++.enable-symbols": true,
+                "compiler++.extra-include-directories": ".",
+                "compiler++.post-instruction-scheduling": "default",
+                "compiler++.pre-instruction-scheduling": "default",
+                "assembler.enable-symbols": true,
+                "assembler.extra-include-directories-for-assembler": ".",
+                "assembler.extra-include-directories-for-preprocessor": ".",
+                "archiver.additional-options-chop-files": false,
+                "linker.additional-options-use-response-files": false,
+                "linker.exclude-floating-point-library": false,
+                "linker.extra-lib-directories": ".",
+                "linker.fill-flash-options-inc-const": "1",
+                "linker.report-memory-usage": false,
+                "global.legacy-libc": false
+            }
+        },
+        {
+            "name": "default-tool",
+            "type": "tool",
+            "properties": {
+                "AutoSelectMemRanges": "auto",
+                "arm.use_vtor": false,
+                "arm.vtor_adr": "exception_table",
+                "communication.activationmode": "nohv",
+                "communication.interface": "swd",
+                "communication.speed": "2.000",
+                "debugoptions.useswbreakpoints": false,
+                "firmware.path": "Press to browse for a specific firmware version",
+                "firmware.toolpack": "Press to select which tool pack to use",
+                "firmware.update.action": "firmware.update.use.latest",
+                "freeze.timers": false,
+                "memories.aux": false,
+                "memories.bootflash": true,
+                "memories.configurationmemory": true,
+                "memories.configurationmemory2": true,
+                "memories.dataflash": true,
+                "memories.eeprom": true,
+                "memories.exclude.configurationmemory": true,
+                "memories.flashdata": true,
+                "memories.id": true,
+                "memories.instruction.ram.ranges": "${memories.instruction.ram.ranges}",
+                "memories.programmemory": true,
+                "memories.programmemory.ranges": "0-fffff",
+                "memories.rww": true,
+                "poweroptions.powerenable": false,
+                "programoptions.eraseb4program": true,
+                "programoptions.preservedataflash": false,
+                "programoptions.preservedataflash.ranges": "${memories.dataflash.default}",
+                "programoptions.preserveeeprom": false,
+                "programoptions.preserveprogramrange": false,
+                "programoptions.preserveuserid": false,
+                "programoptions.programuserotp": false,
+                "script.has_reset": true,
+                "script.log_level": "0",
+                "script.reset_delay": "0",
+                "script.show_output": false,
+                "toolpack.updateoptions": "toolpack.updateoptions.uselatestoolpack",
+                "toolpack.updateoptions.packversion": "Press to select which tool pack to use"
+            }
+        }
+    ],
+    "fileSets": [
+        {
+            "name": "Project files",
+            "files": [
+                "*"
+            ],
+            "encoding": "ISO-8859-1"
+        }
+    ]
+}

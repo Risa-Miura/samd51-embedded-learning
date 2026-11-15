@@ -1,0 +1,42 @@
+{
+  "version": "1.9",
+  "configurations": [
+    {
+      "name": "default",
+      "id": "",
+      "device": "ATSAMD51P20A",
+      "imagePath": "./out/samd51-blink/default.elf",
+      "packs": [
+        {
+          "name": "SAMD51_DFP",
+          "vendor": "Microchip",
+          "version": "3.10.283"
+        },
+        {
+          "name": "CMSIS",
+          "vendor": "ARM",
+          "version": "6.4.0"
+        }
+      ],
+      "fileSet": "default",
+      "toolchain": "default-XC32",
+      "includeLegacyMacros": false
+    }
+  ],
+  "propertyGroups": [
+    {
+      "name": "default-XC32",
+      "type": "toolchain",
+      "provider": "microchip.toolchains:xc32@2.50",
+      "properties": {}
+    }
+  ],
+  "fileSets": [
+    {
+      "name": "default",
+      "files": [
+        "src/main.c"
+      ]
+    }
+  ]
+}
