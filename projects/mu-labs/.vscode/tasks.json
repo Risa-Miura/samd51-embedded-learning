@@ -1,0 +1,79 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Lab 1: build open loop",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "build.py",
+        "lab-1"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Lab 2: build open loop",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "build.py",
+        "lab-2"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Lab 3: build open loop",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "build.py",
+        "lab-3"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Lab 4: build open loop",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "build.py",
+        "lab-4"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Lab 5: build open loop",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "build.py",
+        "lab-5"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Lab 1: closed loop + button",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "build.py",
+        "lab-1",
+        "--closed-loop",
+        "--button-gated"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
+    }
+  ]
+}

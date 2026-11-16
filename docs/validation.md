@@ -40,3 +40,7 @@ Interactive browser inspection was unavailable because browser control could not
 - [ ] Collect real benchmark data with a defined protocol and raw evidence.
 
 No device was physically tested while preparing this notebook. No hardware measurements are included.
+
+## Adapted Microchip University workbench labs
+
+The separate [five-lab workbench adaptation](microchip-university/labs/index.md) now supplies register-level C for GPIO/timers, RTC, ADC-to-PWM DMA, events/EIC, and ADC-to-memory capture. These applications are separate from the original roadmap project specifications above. Their [verification record and remaining bench checklist](microchip-university/labs/verification.md) distinguish successful software checks from unperformed physical tests.

@@ -18,3 +18,7 @@ These pages organize my planned study by topic. They are not official course tra
 | [08 · Event System](08-event-system.md) | Not started | Map an event route |
 
 [How to write the first lesson](../contributing.md#add-the-first-microchip-university-lesson)
+
+## Adapted hands-on course labs
+
+The [five-lab SAMD51 workbench manual](labs/index.md) follows the supplied course PDF using the Grand Central M4, Atmel-ICE and Analog Discovery 2. It includes independent bare-metal source, verified pin/target definitions, build/image checks, and explicit remaining hardware tests. Personal topic notes above remain separate.

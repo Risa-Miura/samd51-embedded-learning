@@ -120,3 +120,7 @@ The default input is an empty CSV schema. The notebook can import real CSVs or e
 Pushes to `main` build and deploy via GitHub Actions after Pages is configured to **GitHub Actions**. Pull requests build and check links without deploying. See [publication instructions](docs/publishing.md).
 
 Add concise, dated notes with source citations, source-code links, configuration, and raw evidence. Use [the contribution guide](docs/contributing.md) for new topics, projects, images, Mermaid diagrams, and math. Publish only cleared research material. No software license has been chosen for this personal notebook; add an appropriate license intentionally before inviting reuse.
+
+## Adapted Microchip University workbench labs
+
+The [complete five-lab adaptation](docs/microchip-university/labs/index.md) targets the Grand Central M4 / ATSAMD51P20A, Atmel-ICE SWD and Analog Discovery 2. Start with the [workbench setup](docs/microchip-university/labs/workbench-setup.md) and [Lab 1](docs/microchip-university/labs/lab-1-gpio-timers.md). New register-level C lives in [projects/mu-labs](projects/mu-labs/README.md), separate from the original SAME54 and existing blink projects. The new application layout begins at `0x4000` to retain the UF2 bootloader. Software-checked source is supplied; physical flashing, behavior and all measurements remain unverified.

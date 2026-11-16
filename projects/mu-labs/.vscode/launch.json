@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach Lab 1 (already programmed)",
+      "type": "cortex-debug",
+      "request": "attach",
+      "servertype": "external",
+      "gdbTarget": "localhost:3333",
+      "executable": "${workspaceFolder}/build/lab-1/open/firmware.elf",
+      "gdbPath": "${workspaceFolder}/.tools/arm-gnu/bin/arm-none-eabi-gdb.exe",
+      "svdFile": "${env:USERPROFILE}/.mchp_packs/Microchip/SAMD51_DFP/3.10.283/samd51a/svd/ATSAMD51P20A.svd",
+      "device": "ATSAMD51P20A",
+      "showDevDebugOutput": "none"
+    }
+  ]
+}

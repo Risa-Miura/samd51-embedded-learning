@@ -92,6 +92,22 @@ nav:
       - 06 · DMA: microchip-university/06-dma.md
       - 07 · ADC: microchip-university/07-adc.md
       - 08 · Event System: microchip-university/08-event-system.md
+      - Adapted workbench labs:
+          - Start here: microchip-university/labs/index.md
+          - Compatibility report: microchip-university/labs/compatibility.md
+          - Manual reading map: microchip-university/labs/manual-reading-map.md
+          - Workbench setup: microchip-university/labs/workbench-setup.md
+          - Lab 1 · GPIO and timers: microchip-university/labs/lab-1-gpio-timers.md
+          - Lab 2 · RTC: microchip-university/labs/lab-2-rtc.md
+          - Lab 3 · Peripheral DMA: microchip-university/labs/lab-3-dma.md
+          - Lab 4 · Event System: microchip-university/labs/lab-4-event-system.md
+          - Lab 5 · Memory DMA: microchip-university/labs/lab-5-memory-dma.md
+          - Verification checklist: microchip-university/labs/verification.md
+  - Workbench hardware:
+      - Grand Central M4: hardware/grand-central-m4.md
+      - Wiring and equipment: hardware/wiring-reference.md
+      - Atmel-ICE: hardware/atmel-ice.md
+      - Analog Discovery 2: hardware/analog-discovery-2.md
   - Projects:
       - projects/index.md
       - 01 · LED blink: projects/led-blink.md
