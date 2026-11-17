@@ -1,8 +1,8 @@
 # Microcontroller basics
 
-**Status:** In Progress
+**Status:** Completed
 
-**Study date:** 14-Nov-2026
+**Study date:** Week 1
 
 ## Overview
 
@@ -335,6 +335,87 @@ flowchart LR
 
 - **Timers can operate without constant CPU intervention.** Through the Event System and DMA, timers can trigger peripheral operations with little or no direct CPU involvement.
 
+## Programming the Board (Finally!)
+Let's blink the red LED labeled `L` conneted to digital pin D13 (found from [Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central))
+
+### Verifying board with Arduino first
+
+```arduino
+void setup() {
+    pinMode(13, OUTPUT);    // configure the LED's GPIO pin as output
+}
+
+void loop() {
+    digitalWrite(13, HIGH); // drive the pin high (approx 3.3 V)
+    delay(500);             // wait 500 ms
+
+    digitalWrite(13, LOW);  // drive the pin low (0 V)
+    delay(500);             // wait 500 ms again
+}
+```
+Pin name found using [Grand Central M4 Pinout Diagram](https://cdn-learn.adafruit.com/assets/assets/000/115/366/original/adafruit_products_Adafruit-Grand-Central-M4-Express-Pinout.png?1663982143)
+
+### Controlling the registers directly
+
+```c
+#define LED_MASK (1u << 1)  // PB01 = D13
+
+void setup() {
+    // Configure PB01 as an output.
+    PORT->Group[1].DIRSET.reg = LED_MASK;
+}
+
+void loop() {
+    // Toggle the LED using a hardware register.
+    PORT->Group[1].OUTTGL.reg = LED_MASK;
+
+    delay(500);
+}
+```
+
+## Next Steps
+- measure LED timing using oscilloscope
+- step through the code with the Atmel-ICE
+- continue going through microchip university (get topics ranked by marcel)
+
+## Misc Tables
+
+#### Manipulating Bits
+
+| Expression | Meaning |
+|---|---|
+| `1u << n` | Create a mask for bit `n` |
+| `reg \|= mask` | Set selected bits |
+| `reg &= ~mask` | Clear selected bits |
+| `reg ^= mask` | Toggle selected bits |
+| `reg & mask` | Test whether selected bits are set |
+
+#### C Pointers Refresher
+
+| Symbol | Meaning | Example |
+|---|---|---|
+| `&` | Get address of variable | `&x` |
+| `*` (declaration) | Declare a pointer | `int *p;` |
+| `*` (dereference) | Access value at address | `*p` |
+| `->` | Access struct member through pointer | `p->value` |
+| `.` | Access struct member directly | `s.value` |
+| `NULL` | Pointer that points to nothing | `int *p = NULL;` |
+| `[]` | Access array element (also works with pointers) | `p[0]` |
+| `void *` | Generic object pointer | `void *p;` |
+
+## References
+
+- [Starting Microchip University course](https://mu.microchip.com/getting-started-with-writing-code-for-the-microchip-arm-cortex-microcontrollers)
+    - Modules: Introduction, Clock Structure, Compiler Specifics, Clock Synchronization, Internal Oscillator Setup, and GPIO and Peripherals (Up to Lab 1)
+- [Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central)
+    - red LED `L` connected to `D13` (search for better place to find this)
+    - pinout diagram for names
+- [GPIO Register Definitions](https://github.com/adafruit/asf4/blob/master/samd51/include/component/port.h)
+- [Microcontroller definitions](https://github.com/adafruit/asf4/blob/master/samd51/include/samd51p20a.h)
+- [SAM D5x/E5x family datasheet](https://www.microchip.com/content/dam/mchp/documents/MCU32/ProductDocuments/DataSheets/SAM-D5x-E5x-Family-Data-Sheet-DS60001507.pdf) 
+    - record chapter title and table/section identifiers consulted
+
+<!--
 ## 4. Important Registers
 
 **Lookup prompts:** SCB->VTOR; SysTick->CTRL/LOAD/VAL (core registers). Identify which startup code sets the vector table. Do not confuse core registers with SAMD51 peripheral registers.
@@ -378,35 +459,4 @@ Confirm relevance by inspecting the actual project with advisor guidance. Record
 ## 9. Key Takeaways
 
 To write after study: what can I now explain, what evidence supports it, and what remains uncertain?
-
-## Misc Tables
-
-#### Manipulating Bits
-
-| Expression | Meaning |
-|---|---|
-| `1u << n` | Create a mask for bit `n` |
-| `reg \|= mask` | Set selected bits |
-| `reg &= ~mask` | Clear selected bits |
-| `reg ^= mask` | Toggle selected bits |
-| `reg & mask` | Test whether selected bits are set |
-
-#### C Pointers Refresher
-
-| Symbol | Meaning | Example |
-|---|---|---|
-| `&` | Get address of variable | `&x` |
-| `*` (declaration) | Declare a pointer | `int *p;` |
-| `*` (dereference) | Access value at address | `*p` |
-| `->` | Access struct member through pointer | `p->value` |
-| `.` | Access struct member directly | `s.value` |
-| `NULL` | Pointer that points to nothing | `int *p = NULL;` |
-| `[]` | Access array element (also works with pointers) | `p[0]` |
-| `void *` | Generic object pointer | `void *p;` |
-
-
-## 10. References
-
-- [Starting Microchip University course](https://mu.microchip.com/getting-started-with-writing-code-for-the-microchip-arm-cortex-microcontrollers) — record the relevant module and timestamp.
-- [SAM D5x/E5x family datasheet](https://www.microchip.com/content/dam/mchp/documents/MCU32/ProductDocuments/DataSheets/SAM-D5x-E5x-Family-Data-Sheet-DS60001507.pdf) — record revision, chapter title, and table/section identifiers actually consulted.
-- [Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central) — confirm board-specific assumptions.
+-->
