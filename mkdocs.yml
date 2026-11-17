@@ -97,6 +97,7 @@ nav:
           - Compatibility report: microchip-university/labs/compatibility.md
           - Manual reading map: microchip-university/labs/manual-reading-map.md
           - Workbench setup: microchip-university/labs/workbench-setup.md
+          - MPLAB in VS Code: microchip-university/labs/mplab-vscode.md
           - Lab 1 · GPIO and timers: microchip-university/labs/lab-1-gpio-timers.md
           - Lab 2 · RTC: microchip-university/labs/lab-2-rtc.md
           - Lab 3 · Peripheral DMA: microchip-university/labs/lab-3-dma.md

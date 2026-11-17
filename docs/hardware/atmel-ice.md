@@ -39,12 +39,13 @@ The board must be powered independently, normally through its USB connector. The
 
 ## Host setup and compatibility
 
-- Install Microchip's official tool/USB support if using MPLAB X or Microchip Studio. Use those tools for any required Atmel-ICE firmware update; do not guess an image or interrupt an update.
-- The selected open workflow uses **OpenOCD + CMSIS-DAP + GDB**. OpenOCD's `target/atsame5x.cfg` explicitly supports D51 despite its name, and its `atsame5` driver identifies `SAMD51P20A` with 1 MiB Flash/256 KiB SRAM. See the [official target configuration](https://github.com/openocd-org/openocd/blob/v0.12.0/tcl/target/atsame5x.cfg) and [driver](https://github.com/openocd-org/openocd/blob/v0.12.0/src/flash/nor/atsame5.c).
-- CMSIS-DAP HID can use the Windows HID driver. Do not replace the entire ICE composite-device driver with Zadig. If discovery fails, close MPLAB/Studio, inspect Device Manager, and try the documented `cmsis-dap backend hid` selection with the OpenOCD build used here.
-- Keep only one debug server/IDE connected to the probe. If several CMSIS-DAP probes are attached, add `adapter serial <actual ICE serial>` to the local config before connection.
+Use the installed **MPLAB Tools for VS Code** and its **Debug Adapter for MPLAB** for the main debugging interface. Follow the [MPLAB extension guide](../microchip-university/labs/mplab-vscode.md). The extension manages the required Microchip debugger components; use its official setup/tool support for any firmware update. The desktop MPLAB X IDE is not required for this workflow.
 
-The bundled local xPack OpenOCD 0.12.0-7 executable and configuration were checked offline; the probe's firmware, USB interface and actual device connection have **not** been exercised. Verify these during first bring-up. Initial SWD speed is a conservative 500 kHz.
+The installed debugger 2.2.0 schema supports Atmel-ICE/SWD and direct ELF attach. The supplied native configurations use 0.5 MHz SWD and the exact SAMD51 DFP. Probe firmware, USB access, source stepping and application entry remain **physically untested**.
+
+The explicit identification/programming helper and alternative debugging route use **OpenOCD + CMSIS-DAP**. OpenOCD's [target configuration](https://github.com/openocd-org/openocd/blob/v0.12.0/tcl/target/atsame5x.cfg) supports D51, and its [flash driver](https://github.com/openocd-org/openocd/blob/v0.12.0/src/flash/nor/atsame5.c) identifies SAMD51P20A with 1 MiB Flash/256 KiB SRAM. The local xPack executable/configuration passed offline checks without adapter initialization. Initial speed is 500 kHz.
+
+Only one backend may own the ICE at a time. End the MPLAB session before running OpenOCD, and close OpenOCD before native MPLAB attach. CMSIS-DAP HID can use the Windows HID driver; do not replace the entire ICE composite driver with Zadig. If the OpenOCD backend has a discovery problem, inspect Device Manager and try its documented `cmsis-dap backend hid` option. For native MPLAB discovery use **MPLAB: List connected tools** and the extension's diagnostics.
 
 ## First connection: identify and read, without programming
 
@@ -68,6 +69,12 @@ python program.py build/lab-1/open/firmware.elf --replace-application
 `program.py` checks the ELF's ARM type, vector/stack addresses and every file-backed load segment; it verifies that the BIN exactly matches those segments. It backs up the first 16 KiB and the 512-byte user row under an ignored timestamped `backups/` folder, writes/verifies the application BIN at **0x4000**, reads the same protected regions again, and compares them byte-for-byte. It leaves the target halted. The script does not issue chip erase, unlock, protection changes or user-row writes. Existing application data in the application's erased Flash blocks is replaced; archive anything important first.
 
 Never substitute the original `Lab1.X` image or the older address-zero `samd51-blink` ELF. Do not use `atsame5 chip-erase`, `atsame5 bootloader <size>`, mass erase, unlock or copied `#pragma config` settings. If a sector is protected or programming fails, retain backups/logs and stop before considering protection changes. Restoring a bootloader/fuse image is a separate operation requiring an explicit decision.
+
+## Attach with MPLAB in VS Code
+
+After the explicit application programming/readback procedure above, close OpenOCD. Open **projects/mu-labs** in VS Code. Select **MPLAB: Attach Lab 1 (already programmed)** in **Run and Debug**, then press F5. Native attach configurations for Labs 2–5 are supplied as well. They use the matching ELF as symbols, `ATSAMD51P20A`, `Atmel-ICE`, `SWD`, and the pinned DFP; they do not select programming `launch` mode.
+
+Follow the [native attach and main-entry steps](../microchip-university/labs/mplab-vscode.md#program-then-attach-with-mplab), including **Reset and Halt at main**, the retained bootloader's normal startup timeout, and the checks at the application's main. Use Variables, Watch, CPU Registers, source breakpoints and VS Code stepping. This native session does not use an OpenOCD server or GDB console commands. If reset does not reach the offset application, record the PC/state and use the explicit alternative below.
 
 ## Attach GDB and enter the offset application
 
@@ -99,9 +106,9 @@ The hardware reset initially points at the retained bootloader, not this ELF's r
 
 Use `break TC3_Handler`, `next`, `step`, `continue`, `info registers`, `print g_ms`, and `print/x *TC3_REGS` as appropriate. At `main`, source-level stepping is meaningful; at reset/startup, instruction stepping (`stepi`) may be clearer. Set a temporary breakpoint and remove it before timing captures. Breakpoint resources are finite; prefer a few hardware breakpoints rather than software patches in Flash.
 
-## VS Code debugging
+## Alternative: Cortex-Debug in VS Code
 
-Open the **projects/mu-labs** folder, install **Cortex-Debug** and Microsoft C/C++ if needed, build the selected lab, then use the supplied **Attach Lab 1 (already programmed)** launch configuration. It attaches to the server already running on port3333, loads symbols/SVD, and does not program. In the Debug Console use GDB commands with Cortex-Debug's `-exec` prefix, for example `-exec monitor reset halt` and the entry sequence above. Change the ELF path to debug another lab/build variant.
+Open the **projects/mu-labs** folder, install **Cortex-Debug** and Microsoft C/C++ if needed, build the selected lab, then use the supplied **Alternative: Cortex-Debug Lab 1 (OpenOCD already running)** configuration. It attaches to the server already running on port3333, loads symbols/SVD, and does not program. In the Debug Console use GDB commands with Cortex-Debug's `-exec` prefix, for example `-exec monitor reset halt` and the entry sequence above. Change the ELF path to debug another lab/build variant.
 
 Variables show C state; the Peripherals view uses the installed ATSAMD51P20A SVD. Watch `g_fault_stage`, `g_ms`, `g_led_toggles` and configuration registers. Reading an ADC RESULT consumes data, and some registers have read side effects: do not live-refresh RESULT while DMA owns it. Lab 5's completed buffer is the safe place to inspect captured samples.
 
@@ -109,11 +116,11 @@ Variables show C state; the Peripherals view uses the installed ATSAMD51P20A SVD
 
 | Failure | Check before taking another action |
 | --- | --- |
-| Probe not found / busy | Correct USB data cable; official firmware/driver; only one IDE/server; CMSIS-DAP HID backend |
+| Probe not found / busy | Correct USB data cable; official firmware/driver; one backend; MPLAB List connected tools, or HID selection for OpenOCD |
 | Target voltage missing | Board USB power; VTref on SAM pin 1; GND3/5; connector orientation |
 | Cannot halt / read device | SWDIO2, SWCLK4, reset10; short cable; lower `adapter speed` to 100 kHz; inspect reset wiring |
 | Program blocked by protection | Check logs/BOOTPROT/region state; no automatic unprotect or user-row change |
-| Stops at address0 or bootloader | Application is at 0x4000; enter its reset handler with its own stack as shown |
+| Stops at address0 or bootloader | Application is at 0x4000; follow native main-entry checks or the explicit GDB stack/reset-entry sequence |
 | Clock wait never completes | Read `g_fault_stage`; inspect source/reference/channel and optional crystal lock; return to open-loop build |
 | LED freezes at a breakpoint | Timers/peripherals may halt in debug; remove breakpoints and run continuously for measurements |
 | Bootloader USB not visible | The bare-metal app has no USB stack; double-tap reset and check existing bootloader mode. Do not erase the device as a discovery step |

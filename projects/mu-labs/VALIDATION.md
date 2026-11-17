@@ -50,3 +50,9 @@ The strict MkDocs build passed locally. The rendered-site checker passed 38 HTML
 Confirm actual board revision/cable mapping/3.3 V reference; connect and identify the target; retain any needed old application; exercise the explicit Flash verify and unchanged-bootloader/user-row comparisons; reach/step main and the selected ISR; measure the clock, LED, timer/reference/ISR signals; verify ADC/PWM DMA and events; capture a complete stable sample buffer; record all actual tool settings, raw captures and limitations.
 
 See [the full checklist](../../docs/microchip-university/labs/verification.md). No real measurement files, claimed course completion, or inferred Miniscope Zero performance are included.
+
+## MPLAB for VS Code workflow update
+
+The installed MPLAB Extension Pack 1.2.9 and Debug Adapter 2.2.0 were identified locally. All five native `mplab-core-da` attach configurations were checked against that installed extension's field types and enumerations; referenced lab ELF files exist. The interface speed is 0.5 MHz, with explicit ATSAMD51P20A, Atmel-ICE, SWD and SAMD51_DFP 3.10.283. No automatic build, programming launch, or erase task is included in native attach. Source code and firmware build settings were unchanged by this workflow update.
+
+The updated documentation passed a strict local MkDocs build and checks of 39 pages and 3,217 internal links/assets/fragments. Native MPLAB probe discovery, main-entry/reset behavior, symbol evaluation, and source stepping remain physically untested. OpenOCD remains the explicit application-programming backend and an alternative debug route; close it before native MPLAB takes the probe.

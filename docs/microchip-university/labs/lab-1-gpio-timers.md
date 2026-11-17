@@ -77,7 +77,7 @@ Inspect `build/lab-1/open/build-record.json` and the memory map, then follow the
 python program.py build/lab-1/open/firmware.elf --replace-application
 ```
 
-This replaces the existing application, not the bootloader. Enter the offset application's reset handler using its own stack, as documented in the [debug guide](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application). No physical programming was performed while writing this adaptation.
+This replaces the existing application, not the bootloader. Close OpenOCD, then select **MPLAB: Attach Lab 1 (already programmed)** in VS Code. Follow the [MPLAB native attach and application-entry procedure](mplab-vscode.md#program-then-attach-with-mplab). An [explicit GDB startup alternative](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application) is available if native reset does not reach main. No physical programming was performed while writing this adaptation.
 
 For the original switch and closed-loop experiments, build each variant explicitly:
 
@@ -90,6 +90,8 @@ python build.py lab-1 --closed-loop --button-gated
 Their ELF paths are `build/lab-1/open-button/`, `closed/` and `closed-button/` respectively. Program only the selected image. The source is compiled and checked; the ICE connection and actual bootloader preservation check must still be performed.
 
 ## G. Debug with Atmel-ICE
+
+Use the **MPLAB Debugger in VS Code** configuration above. Variables, Watch, CPU Registers and the supported device/memory views provide the inspections below; use the native debugger console only for its own commands.
 
 At `main`, inspect `SCB->VTOR` (expected0x4000), the clock source, and `g_fault_stage` (expected0). Step through `board_init`, `clock_init` and `tc3_init`. Inspect:
 

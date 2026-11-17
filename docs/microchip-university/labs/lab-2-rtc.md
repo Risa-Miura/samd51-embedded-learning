@@ -42,9 +42,11 @@ Inspect `build/lab-2/open/build-record.json` and the memory map, then follow the
 python program.py build/lab-2/open/firmware.elf --replace-application
 ```
 
-This replaces the existing application, not the bootloader. Enter the offset application's reset handler using its own stack, as documented in the [debug guide](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application). No physical programming was performed while writing this adaptation.
+This replaces the existing application, not the bootloader. Close OpenOCD, then select **MPLAB: Attach Lab 2 (already programmed)** in VS Code. Follow the [MPLAB native attach and application-entry procedure](mplab-vscode.md#program-then-attach-with-mplab). An [explicit GDB startup alternative](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application) is available if native reset does not reach main. No physical programming was performed while writing this adaptation.
 
 ## G. Debug with Atmel-ICE
+
+Use the **MPLAB Debugger in VS Code** configuration above. Variables, Watch, CPU Registers and the supported device/memory views provide the inspections below; use the native debugger console only for its own commands.
 
 Inspect `OSC32KCTRL_RTCCTRL`, RTC MODE0 CTRLA/COMP0/INTENSET/INTFLAG/SYNCBUSY, `g_rtc_matches`, and PB01 OUT. Break temporarily in `RTC_Handler`, verify CMP0 is acknowledged by a write-one-to-clear assignment, then run without breakpoints. COUNT is read-synchronized; consult COUNTSYNC/read synchronization instead of assuming a debugger refresh shows the current counter.
 

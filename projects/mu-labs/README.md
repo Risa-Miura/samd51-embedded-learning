@@ -1,9 +1,10 @@
 # Microchip University labs — Grand Central M4
 
-Independent bare-metal C adaptations for ATSAMD51P20A. Existing SAME54 and blink projects remain separate.
+Independent bare-metal C adaptations for ATSAMD51P20A. Use **MPLAB Tools for VS Code** with the supplied lab build tasks and native Atmel-ICE attach configurations. The lab compiler remains Arm GNU; your existing native MPLAB project uses XC32. Existing SAME54 and blink projects remain separate.
 
 - [Start with the manual](../../docs/microchip-university/labs/index.md)
 - [Workbench setup](../../docs/microchip-university/labs/workbench-setup.md)
+- [MPLAB extension workflow in VS Code](../../docs/microchip-university/labs/mplab-vscode.md)
 - [Atmel-ICE guide](../../docs/hardware/atmel-ice.md)
 - [AD2 guide](../../docs/hardware/analog-discovery-2.md)
 

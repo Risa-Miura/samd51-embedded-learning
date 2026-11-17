@@ -12,7 +12,7 @@
 | Expansion light sensor PB04/ADC1 AIN6 | A7/PB04/ADC1 AIN6 | Same ADC instance/channel; use a verified 0.2–2.2 V AD2 signal |
 | Raw 48 MHz GCLK0 on PB14 | DFLL/48 on D37/PA16/GCLK_IO2 | Approximately 1 MHz is much more suitable for AD2 flying leads |
 | Whole-device reset image and configuration pragmas | Application at `0x4000`, existing bootloader/user row retained | New startup/vector table and constrained linker/flashing checks |
-| MPLAB X 5.15 / XC32 2.15 | VS Code + Arm GNU + Microchip packs + OpenOCD/GDB | Build/debug commands are transparent; existing MPLAB projects remain intact |
+| MPLAB X 5.15 / XC32 2.15 | MPLAB Tools for VS Code; GNU lab build tasks; native MPLAB ELF attach | Existing XC32/MPLAB projects retained; OpenOCD handles explicit programming and optional alternative debug |
 
 The [Adafruit rev B schematic](https://github.com/adafruit/Adafruit-Grand-Central-PCB/blob/master/Adafruit%20Grand%20Central%20M4%20Express%20rev%20B.sch) identifies X4 as a 32.768 kHz crystal connected to PA00/PA01, X2 as the 10-pin SWD header, and the ordinary LED on PB01. The [Adafruit Arduino variant](https://github.com/adafruit/ArduinoCore-samd/blob/master/variants/grand_central_m4/variant.cpp) resolves header labels to MCU pads. These are wiring references only; the new firmware uses no Arduino runtime.
 

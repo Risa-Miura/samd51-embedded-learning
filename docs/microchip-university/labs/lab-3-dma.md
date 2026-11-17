@@ -57,9 +57,11 @@ Inspect `build/lab-3/open/build-record.json` and the memory map, then follow the
 python program.py build/lab-3/open/firmware.elf --replace-application
 ```
 
-This replaces the existing application, not the bootloader. Enter the offset application's reset handler using its own stack, as documented in the [debug guide](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application). No physical programming was performed while writing this adaptation.
+This replaces the existing application, not the bootloader. Close OpenOCD, then select **MPLAB: Attach Lab 3 (already programmed)** in VS Code. Follow the [MPLAB native attach and application-entry procedure](mplab-vscode.md#program-then-attach-with-mplab). An [explicit GDB startup alternative](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application) is available if native reset does not reach main. No physical programming was performed while writing this adaptation.
 
 ## G. Debug with Atmel-ICE
+
+Use the **MPLAB Debugger in VS Code** configuration above. Variables, Watch, CPU Registers and the supported device/memory views provide the inspections below; use the native debugger console only for its own commands.
 
 Inspect ADC CALIB/REFCTRL/INPUTCTRL/CTRLA/CTRLB/SAMPCTRL, TCC PER/CC2/CCBUF2, DMAC BASEADDR/WRBADDR/CHCTRLA/CHINTFLAG, `g_descriptor`, `g_writeback`, `g_dma_blocks`, `g_dma_errors`, `g_adc_overruns` and `g_fault_stage`. Verify descriptor/write-back addresses are divisible by 16. Pause briefly at DMAC_0_Handler to inspect SUSP, then remove breakpoints for a clean run: free-running ADC can overrun while DMA/CPU is paused or suspended.
 

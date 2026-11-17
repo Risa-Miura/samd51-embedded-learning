@@ -1,14 +1,18 @@
 # Workbench setup: edit, build, inspect, debug
 
-## Selected workflow and alternatives
+## MPLAB in VS Code
 
-| Approach | Evidence / strengths | Limitations and decision |
+Your primary Microchip interface is **MPLAB Tools for VS Code**. Follow the [MPLAB extension workflow](mplab-vscode.md) for the installed extensions, existing XC32 project, lab build tasks, native Atmel-ICE attach configuration, and stepping/register inspection. The desktop MPLAB X IDE is not needed for these instructions.
+
+| Part of the workflow | Selection for the adapted labs | Validation / limit |
 | --- | --- | --- |
-| MPLAB X / XC32 | Original course workflow; ATSAMD51 DFP and Atmel-ICE are supported by Microchip; XC32 v2.50 and the selected packs are present locally | IDE programming/reset options must be checked before preserving an offset bootloader application; existing address-zero project is retained, not reused for flashing |
-| VS Code + Arm GNU + Microchip headers + Python build script | Final labs are register-level C, with explicit vectors/linker layout, ELF/BIN checks, reproducible flags and `compile_commands.json` | Requires Arm GNU tools; no Arduino framework/startup/USB convenience layer |
-| OpenOCD / GDB + Cortex-Debug | CMSIS-DAP supports Atmel-ICE; official OpenOCD D51 target/flash driver; standard ELF symbols and SVD inspection | Offline executable/config checks are complete; actual ICE driver/firmware/connection still needs a bench check |
+| Editor and Microchip services | VS Code + installed MPLAB Extension Pack | Local installed versions identified in the extension guide |
+| Firmware build | Arm GNU + Microchip headers + `build.py`, run through VS Code tasks | Eight image variants compiled and checked; the build is not a generated MPLAB/XC32 project |
+| Explicit application programming | `program.py` through OpenOCD | Application range/ELF checks and protected-region comparisons; actual target operation pending |
+| Primary debugging interface | Debug Adapter for MPLAB, Atmel-ICE/SWD, direct ELF `attach` | Supplied settings checked against installed 2.2.0 schema; hardware session pending |
+| Alternative debugging interface | OpenOCD/GDB + optional Cortex-Debug in VS Code | Offline executable/config checks; explicit offset startup sequence |
 
-Use **VS Code + GNU + OpenOCD/GDB** for these new applications. Continue using your established MPLAB setup for the separate existing projects. Do not merge their generated build files or loadable images. If choosing MPLAB for the new code later, preserve the supplied startup/linker contract, omit config words, inspect the image, and review erase/program-range behavior first.
+Your separate native MPLAB blink project continues to use XC32 v2.50 and MPLAB CMake Runner in VS Code. It retains its original startup and address-zero layout. The new labs retain their tested custom startup/linker and 0x4000 layout. Review the image and programming ranges before using a generic MPLAB Program or Debug Launch action with either project.
 
 ## Local tool baseline
 
@@ -17,9 +21,9 @@ Use **VS Code + GNU + OpenOCD/GDB** for these new applications. Continue using y
 - Microchip **SAMD51_DFP3.10.283** at `%USERPROFILE%/.mchp_packs/Microchip/SAMD51_DFP/3.10.283`.
 - ARM **CMSIS 6.4.0** at `%USERPROFILE%/.mchp_packs/ARM/CMSIS/6.4.0`.
 - xPack **OpenOCD 0.12.0-7** in ignored `.tools/xpack-openocd-0.12.0-7`. Its version string identifies a packaged `0.12.0+dev` build; the exact release/archive is locked, rather than assuming it is the unmodified0.12.0 tag.
-- VS Code; Microsoft C/C++ and Cortex-Debug are optional editor/debugger interfaces.
+- VS Code with the installed **MPLAB Extension Pack**, including MPLAB clangd and Debug Adapter for MPLAB. Cortex-Debug is an optional alternative.
 
-Tool binaries and packs are **not committed**. For another clone, install the pinned packs with Microchip's Pack Manager / MPLAB support and install Arm GNU from [Arm's official toolchain distribution](https://developer.arm.com/downloads/-/gnu-rm). The tested legacy Windows GCC archive is also distributed in [Adafruit's board tool packages](https://github.com/adafruit/arduino-board-index/releases/tag/build-tools). Obtain OpenOCD from the [maintainer's pinned Windows release](https://github.com/xpack-dev-tools/openocd-xpack/releases/tag/v0.12.0-7), verifying its published SHA-256. A newer compiler may be usable but has not been claimed as tested here. The [tool lock](https://github.com/Risa-Miura/samd51-embedded-learning/blob/main/projects/mu-labs/toolchain-lock.json) records the target and pack versions.
+Tool binaries and packs are **not committed**. For another clone, install the pinned packs with MPLAB's pack support in VS Code and install Arm GNU from [Arm's official toolchain distribution](https://developer.arm.com/downloads/-/gnu-rm). The tested legacy Windows GCC archive is also distributed in [Adafruit's board tool packages](https://github.com/adafruit/arduino-board-index/releases/tag/build-tools). Obtain OpenOCD from the [maintainer's pinned Windows release](https://github.com/xpack-dev-tools/openocd-xpack/releases/tag/v0.12.0-7), verifying its published SHA-256. A newer compiler may be usable but has not been claimed as tested here. The [tool lock](https://github.com/Risa-Miura/samd51-embedded-learning/blob/main/projects/mu-labs/toolchain-lock.json) records the target and pack versions.
 
 ## Build Lab 1 first
 
@@ -68,7 +72,7 @@ Open the DFP's `samd51a/include/samd51p20a.h`, `component/`, `instance/` and `pi
 - `EVENT_ID_GEN_DMAC_CH_0`, `EVENT_ID_USER_ADC1_START`, `EVENT_ID_USER_PORT_EV_0`.
 - `PINMUX_PC04A_EIC_EXTINT4`, `PINMUX_PB04B_ADC1_AIN6`, `PINMUX_PC18F_TCC0_WO2`.
 
-`build.py` writes an ignored `compile_commands.json`. Open **projects/mu-labs** as its own VS Code folder to use the scoped C/C++ settings/tasks; these do not replace your root XC32 IntelliSense or MPLAB files. Source navigation must reflect the same header paths and target macro as the build.
+`build.py` writes an ignored `compile_commands.json`. Open **projects/mu-labs** as its own VS Code folder to use the scoped tasks and MPLAB clangd compile-command path. The optional C/C++ setting is retained for users of that language service. Your root XC32 IntelliSense and existing MPLAB project files are preserved. Source navigation must reflect the same headers and target macro as the actual build.
 
 ## Inspect the image before a physical flash
 

@@ -46,9 +46,11 @@ Inspect `build/lab-5/open/build-record.json` and the memory map, then follow the
 python program.py build/lab-5/open/firmware.elf --replace-application
 ```
 
-This replaces the existing application, not the bootloader. Enter the offset application's reset handler using its own stack, as documented in the [debug guide](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application). No physical programming was performed while writing this adaptation.
+This replaces the existing application, not the bootloader. Close OpenOCD, then select **MPLAB: Attach Lab 5 (already programmed)** in VS Code. Follow the [MPLAB native attach and application-entry procedure](mplab-vscode.md#program-then-attach-with-mplab). An [explicit GDB startup alternative](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application) is available if native reset does not reach main. No physical programming was performed while writing this adaptation.
 
 ## G. Debug with Atmel-ICE
+
+Use the **MPLAB Debugger in VS Code** configuration above. Variables, Watch, CPU Registers and the supported device/memory views provide the inspections below; use the native debugger console only for its own commands.
 
 Watch `g_buffer_ready` until it becomes1, then halt and inspect `g_samples`, `g_descriptor`, `g_writeback`, `g_dma_blocks`, `g_dma_errors` and `g_adc_overruns`. Do not pause early and mistake initial0xffff sentinel values for ADC results. Expected completed values are0–4095; untouched0xffff entries require investigation.
 

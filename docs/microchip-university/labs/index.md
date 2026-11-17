@@ -6,7 +6,7 @@ This is a hands-on adaptation of the supplied **Getting Started with Cortex M0+/
 
 ## Start with Lab 1
 
-1. Read the [compatibility report](compatibility.md) and [workbench setup](workbench-setup.md).
+1. Read the [compatibility report](compatibility.md), [workbench setup](workbench-setup.md), and [MPLAB in VS Code guide](mplab-vscode.md).
 2. Check the [board pin map](../../hardware/grand-central-m4.md), [Atmel-ICE wiring](../../hardware/atmel-ice.md), and [AD2 connections](../../hardware/analog-discovery-2.md).
 3. Compile [Lab 1](lab-1-gpio-timers.md), inspect its application-only memory map, then perform the explicit programming/debug steps on your hardware.
 4. Complete the Lab 1 evidence checklist before progressing to RTC, DMA, and events.

@@ -11,6 +11,7 @@ The initial validation record is provided with this delivery and in the reposito
 - All five open-loop applications and all four Lab1 open/closed, autonomous/button-gated combinations compiled with GCC9.2.1 and warnings as errors (eight distinct images).
 - Each image passed the0x4000 load boundary, initial stack/Thumb reset-vector and exact ELF/BIN checks; no user-row/configuration image is present.
 - Five negative/positive image/programming-guard unit tests passed.
+- Native MPLAB attach settings for all five labs were checked against the installed Debug Adapter 2.2.0 schema (device/tool/SWD, ELF, DFP and speed units). Native target operation remains pending.
 - The prepared GDB executable starts; OpenOCD and the default/HID configurations parse without initializing an adapter.
 - Strict MkDocs build, rendered local-link/anchor check and A–K section checks passed. No browser interaction or physical target operation is implied by these checks.
 
@@ -25,7 +26,7 @@ The initial validation record is provided with this delivery and in the reposito
 - [ ] Connect/read/halt through ICE; record firmware/driver/serial, device ID and protection state.
 - [ ] Archive any existing application needed before replacing it.
 - [ ] Program the application with the explicit script; record verify success and unchanged bootloader/user-row comparisons.
-- [ ] Reach main, step C code, hit one temporary timer breakpoint, inspect variables/registers, then remove breakpoints.
+- [ ] Select MPLAB native attach in VS Code; reach application main through the retained bootloader, step C code, hit one temporary timer breakpoint, inspect variables/registers, then remove breakpoints. Record any fallback to GDB.
 - [ ] Observe D13/D12, D35 timer reference, D34 ISR pulse and D37 divided clock.
 - [ ] Run the held-button variant and record short/long input behavior.
 - [ ] Run closed loop; verify crystal readiness/fine/coarse lock and repeat timing measurements.

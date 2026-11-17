@@ -60,9 +60,11 @@ Inspect `build/lab-4/open/build-record.json` and the memory map, then follow the
 python program.py build/lab-4/open/firmware.elf --replace-application
 ```
 
-This replaces the existing application, not the bootloader. Enter the offset application's reset handler using its own stack, as documented in the [debug guide](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application). No physical programming was performed while writing this adaptation.
+This replaces the existing application, not the bootloader. Close OpenOCD, then select **MPLAB: Attach Lab 4 (already programmed)** in VS Code. Follow the [MPLAB native attach and application-entry procedure](mplab-vscode.md#program-then-attach-with-mplab). An [explicit GDB startup alternative](../../hardware/atmel-ice.md#attach-gdb-and-enter-the-offset-application) is available if native reset does not reach main. No physical programming was performed while writing this adaptation.
 
 ## G. Debug with Atmel-ICE
+
+Use the **MPLAB Debugger in VS Code** configuration above. Variables, Watch, CPU Registers and the supported device/memory views provide the inspections below; use the native debugger console only for its own commands.
 
 Inspect EVSYS CHANNEL0/1 and USER57/1; ADC EVCTRL.STARTEI and CTRLB.FREERUN=0; descriptor EVOSEL; DMAC CHEVCTRL; RTC EVCTRL.CMPEO0; PORT GROUP1 EVCTRL; EIC CONFIG0/DEBOUNCEN/DPRESCALER/PINSTATE/INTFLAG. Watch `g_dma_blocks`, `g_adc_overruns`, `g_button_events`, `g_change_period` and `g_fault_stage`.
 
