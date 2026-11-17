@@ -33,18 +33,44 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Edit Markdown under `docs/`
 
 ## Validate before pushing
 
-With the environment selected or activated:
+From the repository root, use the local environment explicitly. On Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\python.exe -m mkdocs build --strict --clean
+.\.venv\Scripts\python.exe scripts/check_links.py
+```
+
+On macOS or Linux:
 
 ```sh
-python -m mkdocs build --strict --clean
-python scripts/check_links.py
+.venv/bin/python -m mkdocs build --strict --clean
+.venv/bin/python scripts/check_links.py
+```
+
+Then review and commit the intended changes:
+
+```sh
 git status
 git add docs/
 git commit -m "Document my first Microchip University lesson"
 git push origin main
 ```
 
-Use the explicit `.venv` Python path above if the terminal is not activated. The build fails on documentation warnings. The link check inspects generated local files and fragment targets; it does not check external sites.
+These commands work without activating the terminal. The build fails on documentation warnings. The link check inspects generated local files and fragment targets; it does not check external sites.
+
+## If Python says "No module named mkdocs"
+
+That error means the Python running the command does not have the documentation dependencies installed. Selecting an interpreter in VS Code does not necessarily change an already-open terminal. An Anaconda terminal may still run Anaconda's Python when you type `python`.
+
+From the repository root in Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.\.venv\Scripts\python.exe -m mkdocs build --strict --clean
+```
+
+If `.venv` already exists, skip the first command. Use that same explicit Python path for installation and the build. You do not need to change PowerShell's execution policy or install MkDocs into your global/Anaconda environment. For the VS Code editor, select `.venv\Scripts\python.exe` with **Python: Select Interpreter**. The repository's **Docs** tasks invoke the local environment directly.
 
 ## Next steps
 

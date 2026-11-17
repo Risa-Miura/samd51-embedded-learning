@@ -4,14 +4,20 @@
     {
       "label": "Docs: preview",
       "type": "process",
-      "command": "${command:python.interpreterPath}",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": [
         "-m",
         "mkdocs",
         "serve"
       ],
       "isBackground": true,
-      "problemMatcher": []
+      "problemMatcher": [],
+      "windows": {
+        "command": "${workspaceFolder}/.venv/Scripts/python.exe"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
     },
     {
       "label": "Docs: build and check",
@@ -25,7 +31,7 @@
     {
       "label": "Docs: strict build",
       "type": "process",
-      "command": "${command:python.interpreterPath}",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": [
         "-m",
         "mkdocs",
@@ -33,16 +39,28 @@
         "--strict",
         "--clean"
       ],
-      "problemMatcher": []
+      "problemMatcher": [],
+      "windows": {
+        "command": "${workspaceFolder}/.venv/Scripts/python.exe"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
     },
     {
       "label": "Docs: check links",
       "type": "process",
-      "command": "${command:python.interpreterPath}",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": [
         "scripts/check_links.py"
       ],
-      "problemMatcher": []
+      "problemMatcher": [],
+      "windows": {
+        "command": "${workspaceFolder}/.venv/Scripts/python.exe"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
     }
   ]
 }

@@ -67,7 +67,7 @@ macOS / Linux:
 
 Use Python 3.13 for the documented baseline. Open [localhost:8000](http://127.0.0.1:8000), edit `docs/`, and save to preview changes. Open the repository in VS Code, select the `.venv` interpreter, and use the supplied documentation tasks. If using the delivered local folder, skip cloning.
 
-Before a push, run `python -m mkdocs build --strict --clean` followed by `python scripts/check_links.py` with the selected environment. See [local setup](docs/getting-started.md) for exact commands.
+Before a push on Windows, run `.\.venv\Scripts\python.exe -m mkdocs build --strict --clean` followed by `.\.venv\Scripts\python.exe scripts/check_links.py` from the repository root. These explicit paths work without terminal activation. The **Docs** tasks also use the local environment directly. See [local setup](docs/getting-started.md) for other platforms and `No module named mkdocs` troubleshooting.
 
 ## Repository structure
 

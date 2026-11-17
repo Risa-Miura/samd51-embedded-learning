@@ -86,11 +86,15 @@ Expect the application vector table at **0x4000**, stack **0x2003fff8**, and no 
 
 ## Documentation preview
 
-The existing MkDocs dependencies/tasks are preserved. From the repository root with its documentation environment selected:
+Run these commands from the **repository root**, where `mkdocs.yml` and `requirements-lock.txt` live, rather than from `projects/mu-labs`. Create the local environment once, then use its Python explicitly:
 
 ```powershell
-python -m pip install -r requirements-lock.txt
-python -m mkdocs serve
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.\.venv\Scripts\python.exe -m mkdocs build --strict --clean
+.\.venv\Scripts\python.exe -m mkdocs serve
 ```
+
+Skip the first command when `.venv` already exists. A plain `python -m mkdocs` may use a different Python, including Anaconda, and report `No module named mkdocs`. The explicit paths above avoid that mismatch. See [the setup troubleshooting steps](../../getting-started.md#if-python-says-no-module-named-mkdocs). For documentation tasks, open the repository root as the VS Code folder; the firmware lab tasks remain scoped to `projects/mu-labs`.
 
 Record actual observations in each lab's **K. What I learned** section and evidence table. A build pass or debugger connection does not complete a timing experiment.
