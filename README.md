@@ -1,51 +1,28 @@
-# SAMD51 Embedded Systems Learning Journal
+# SAMD51 firmware journal 🔧
 
-My notes and experiments while learning microcontroller firmware from the registers up, on an ARM Cortex-M4F board (Adafruit Grand Central M4 Express, ATSAMD51P20A).
-
-**Who:** Undergraduate Research Assistant in UCLA's Aharoni Lab (since Nov 2026), learning microcontroller fundamentals to prepare for optimizing and migrating firmware for the wireless Miniscope Zero.
-
-**[Read lesson 01 · Microcontroller basics →](lessons/01-microcontroller-basics.md)**
-
-**Current status (Nov 2026):** Lesson 01 is complete. The LED blink runs on the board, both with Arduino calls and with direct `PORT` register writes (`OUTTGL`). Nothing has been measured yet; oscilloscope timing and Atmel-ICE stepping are next.
+I joined UCLA's Aharoni Lab as an undergrad research assistant in November 2026, and I'm learning microcontroller firmware so I can help optimize and migrate the firmware for the wireless Miniscope Zero. This repo is where I keep my notes and experiments while I work through Microchip University's course on an Adafruit Grand Central M4 (ATSAMD51P20A, ARM Cortex-M4F at 120 MHz).
 
 <img src="images/blink-grand-central.gif" alt="Grand Central M4 on a desk with its red L LED blinking" width="420">
 
-*The red `L` LED blinking on my Grand Central M4, driven by the register-level version (`PORT->Group[1].OUTTGL`).*
+## What I've done so far
 
-## What's here
+- [Lesson 01: microcontroller basics](lessons/01-microcontroller-basics.md). My notes on clock domains, device headers, clock sync (`SYNCBUSY`), the DFLL, GPIO registers, the NVIC and timers.
+- [LED blink](projects/01-led-blink/README.md). I got the red `L` LED blinking with Arduino calls first, then by writing the `PORT` registers directly with `OUTTGL`. The gif above is the register version.
 
-| Path | What it is | Status |
-| --- | --- | --- |
-| [`lessons/01-microcontroller-basics.md`](lessons/01-microcontroller-basics.md) | Notes on clock domains, device headers, clock-domain synchronization (`SYNCBUSY`), the DFLL, GPIO registers, the NVIC and timer counters, with diagrams and code | **Complete** |
-| [`projects/01-led-blink/`](projects/01-led-blink/README.md) | Blink the onboard LED with Arduino calls, then with direct `PORT` register writes | **Runs on the board**; period not measured |
+## What's next
 
-New lessons and experiments are added here as I start them.
-
-## Hardware
-
-| Board | MCU | Core | Nominal clock | Memory | Logic |
-| --- | --- | --- | --- | --- | --- |
-| Adafruit Grand Central M4 Express | ATSAMD51P20A | ARM Cortex-M4F | 120 MHz | 1 MB Flash, 256 KB SRAM | 3.3 V |
-
-For the next steps: Atmel-ICE (SWD debugger) and an oscilloscope.
+I haven't measured anything yet. Next I want to check the blink timing on an oscilloscope and step through the code with an Atmel-ICE, then keep going with lesson 02.
 
 ## Run the blink
 
-1. In Arduino IDE 2.x, add `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json` as a board manager URL and install **Adafruit SAMD Boards**.
-2. Select **Adafruit Grand Central M4 (SAMD51)** and the board's port.
-3. Open [`projects/01-led-blink/src/blink/blink.ino`](projects/01-led-blink/src/blink/blink.ino), then **Verify** and **Upload**.
-4. **Check:** the red LED labeled `L` (D13 / PB01) turns on and off about every 500 ms. That is the requested delay, not a measured period.
+1. In Arduino IDE 2.x, add `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json` as a board manager URL and install Adafruit SAMD Boards.
+2. Pick Adafruit Grand Central M4 (SAMD51) and your board's port.
+3. Open `projects/01-led-blink/src/blink/blink.ino` and upload it.
 
-Arduino CLI commands, the register version and troubleshooting are in the [blink README](projects/01-led-blink/README.md).
-
-## Next (planned)
-
-- Measure the blink period on an oscilloscope.
-- Step through the blink with the Atmel-ICE.
-- Continue the Microchip University course with lesson 02.
-
-Questions about Miniscope Zero are things to investigate later, not claims about its firmware.
+The `L` LED (D13 / PB01) should blink about every 500 ms. CLI commands and troubleshooting are in the [blink README](projects/01-led-blink/README.md).
 
 ## Sources
 
-[Microchip University: Getting Started with Writing Code for Microchip Arm Cortex MCUs](https://mu.microchip.com/getting-started-with-writing-code-for-the-microchip-arm-cortex-microcontrollers) · [Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central) · [SAM D5x/E5x datasheet](https://www.microchip.com/content/dam/mchp/documents/MCU32/ProductDocuments/DataSheets/SAM-D5x-E5x-Family-Data-Sheet-DS60001507.pdf)
+- [Microchip University: Getting Started with Writing Code for Microchip Arm Cortex MCUs](https://mu.microchip.com/getting-started-with-writing-code-for-the-microchip-arm-cortex-microcontrollers)
+- [Adafruit Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central)
+- [SAM D5x/E5x datasheet](https://www.microchip.com/content/dam/mchp/documents/MCU32/ProductDocuments/DataSheets/SAM-D5x-E5x-Family-Data-Sheet-DS60001507.pdf)
