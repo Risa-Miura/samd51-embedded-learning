@@ -168,7 +168,7 @@ $$
 f_{\text{DFLL}} = f_{\text{reference}} \times M
 $$
 
-where \(M\) is the configured multiplication factor.
+where $M$ is the configured multiplication factor.
 
 A multiplication factor of **1465** gives:
 
@@ -336,7 +336,7 @@ flowchart LR
 - **Timers can operate without constant CPU intervention.** Through the Event System and DMA, timers can trigger peripheral operations with little or no direct CPU involvement.
 
 ## Programming the Board (Finally!)
-Let's blink the red LED labeled `L` conneted to digital pin D13 (found from [Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central))
+Let's blink the red LED labeled `L` connected to digital pin D13 (found from [Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central))
 
 ### Verifying board with Arduino first
 

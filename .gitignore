@@ -1,15 +1,7 @@
 .venv/
-.venv-*/
-site/
-build/
-.cache/
 __pycache__/
 *.py[cod]
-.ipynb_checkpoints/
-benchmarks/results/*.csv
-benchmarks/results/*.png
-benchmarks/results/*.ipynb
-!benchmarks/results/README.md
+build/
 .env
 .env.*
 .DS_Store

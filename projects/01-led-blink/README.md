@@ -1,77 +1,55 @@
 # 01 · LED blink
 
-**Status:** Example supplied; hardware verification pending.
+**Status:** Runs on the board (LED seen blinking). Period not measured yet.
 
-[Source](src/blink/blink.ino) · [Website guide](../../docs/projects/led-blink.md)
+Blinks the red LED labeled `L` on the Grand Central M4 (Arduino pin D13, SAMD51 pin PB01). Two versions:
 
-## Hardware requirements
+- **Arduino calls:** [`src/blink/blink.ino`](src/blink/blink.ino) uses `pinMode` and `digitalWrite`.
+- **Direct register writes:** sets `PORT->Group[1].DIRSET` once, then toggles with `PORT->Group[1].OUTTGL`. The code and explanation are in [lesson 01](../../lessons/01-microcontroller-basics.md#controlling-the-registers-directly).
 
-- Adafruit Grand Central M4 Express and a USB data cable.
-- A computer with Arduino IDE 2.x or Arduino CLI.
-- The onboard `LED_BUILTIN`; no external wiring is needed. This is the ordinary LED, not the NeoPixel.
-
-## Build and flash with Arduino IDE
+## Flash with Arduino IDE
 
 1. Add `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json` under **File → Preferences → Additional boards manager URLs**.
-2. In **Boards Manager**, install **Adafruit SAMD Boards** (not Arduino SAMD Boards). Record the installed version; the CLI baseline below uses 1.7.17.
-3. Select **Adafruit Grand Central M4 (SAMD51)**. Keep **CPU Speed: 120 MHz** and other board options at their defaults.
-4. Open `projects/01-led-blink/src/blink/blink.ino`. Arduino requires the sketch file and containing folder to share the name `blink`.
-5. Connect the board, select its port under **Tools → Port**, and click **Verify**.
-6. Click **Upload**. After upload, observe the onboard LED and record the actual behavior.
+2. In **Boards Manager**, install **Adafruit SAMD Boards** (not Arduino SAMD Boards).
+3. Select **Adafruit Grand Central M4 (SAMD51)**, keep **CPU Speed: 120 MHz**, and choose the board's port under **Tools → Port**.
+4. Open `src/blink/blink.ino` (Arduino needs the folder and sketch to share the name `blink`), then **Verify** and **Upload**.
 
-## Build and flash with Arduino CLI
+## Flash with Arduino CLI
 
-Run from the repository root after installing [Arduino CLI](https://arduino.github.io/arduino-cli/latest/installation/):
+From the repository root, after installing [Arduino CLI](https://arduino.github.io/arduino-cli/latest/installation/):
 
 ```sh
 arduino-cli core update-index --additional-urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
 arduino-cli core install adafruit:samd@1.7.17 --additional-urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
 arduino-cli compile --fqbn adafruit:samd:adafruit_grandcentral_m4 projects/01-led-blink/src/blink
 arduino-cli board list
-```
-
-Replace `COM7` with the port returned for the connected board (Linux/macOS use the returned `/dev/...` path):
-
-```sh
 arduino-cli upload --port COM7 --fqbn adafruit:samd:adafruit_grandcentral_m4 projects/01-led-blink/src/blink
 ```
 
-The sketch checks the target macros at compile time. The board package maps `LED_BUILTIN` and configures clocks/startup; this is Arduino C++, not a bare-metal example.
+Replace `COM7` with the port `board list` reports (`/dev/...` on macOS/Linux).
 
 ## Expected behavior
 
-The ordinary onboard LED should be high for about 500 ms and low for about 500 ms: approximately one full on/off cycle per second. `delay()` blocks foreground sketch execution, while core interrupts may still run. The requested delays are not a measured timing guarantee.
+The LED is on for about 500 ms, then off for about 500 ms. That is the delay the code requests, not a measured period. `delay()` blocks the sketch, but core interrupts keep running.
 
-## Debugging
+## Results
+
+| Date | Version | Observation | Measured period |
+| --- | --- | --- | --- |
+| Nov 2026 | Arduino calls | LED `L` blinked | Not measured |
+| Nov 2026 | Register writes (`OUTTGL`) | LED `L` blinked | Not measured |
+
+**Next (planned):** measure the period with an oscilloscope and step through the code with the Atmel-ICE.
+
+## Troubleshooting
 
 | Symptom | Check |
 | --- | --- |
-| Board not listed | Use a data cable, check USB connection, then check the selected board package. |
-| Upload port disappeared | Double-tap reset to enter the UF2 bootloader, select the new bootloader port, and retry upload. |
-| Target compile error | Choose Grand Central M4 under Adafruit SAMD Boards, not Mega/AVR or another SAMD board. |
-| NeoPixel stays off | This sketch drives the ordinary builtin LED. It does not use a NeoPixel library. |
-| Timing differs | Record CPU speed, core version, actual waveform, and the measurement method. |
-
-## Results and performance measurements
-
-**Hardware status: not run.** Record date, board/core/compiler versions, source commit, verify/upload output, observed LED behavior, and any measured period here. Leave timing measurements blank until observed on hardware.
-
-| Run | Observation | Measured period | Instrument / raw file |
-| --- | --- | --- | --- |
-| Pending | Not recorded | Not measured | Not recorded |
-
-## MPLAB bare-metal example
-
-A separate [SAMD51 blink project](samd51-blink/README.md) now lives in `samd51-blink/`. Open that folder in VS Code using the MPLAB profile. It targets ATSAMD51P20A with XC32 v2.50 and builds independently of the original SAME54 `Lab1.X` project. Its ordinary onboard LED is PB01/D13.
-
-The MPLAB image uses the default address-zero reset layout. Read its flashing prerequisites before programming: it requires an appropriate SWD probe and can overwrite the USB bootloader. The Arduino baseline above remains the USB-upload example. Hardware verification of the new MPLAB example is pending.
-
-## Later bootloader-aware implementation
-
-Retain this Arduino baseline. A future MPLAB version should implement and verify a bootloader-aware memory layout before using USB upload. Do not replace the bootloader as part of the Arduino exercise.
+| Board not listed | Use a data cable (not charge-only) and check the selected board package. |
+| Upload port disappeared | Double-tap reset to enter the UF2 bootloader, select the new port, and retry. |
+| `#error "Select Adafruit Grand Central M4"` | The sketch rejects other boards at compile time. Pick Grand Central M4 under Adafruit SAMD Boards. |
 
 ## References
 
-- [Adafruit Arduino guide](https://learn.adafruit.com/adafruit-grand-central/using-with-arduino-ide)
-- [Board definitions](https://github.com/adafruit/ArduinoCore-samd/blob/master/boards.txt)
-- [Grand Central variant](https://github.com/adafruit/ArduinoCore-samd/blob/master/variants/grand_central_m4/variant.h)
+- [Adafruit Grand Central M4: Arduino IDE setup](https://learn.adafruit.com/adafruit-grand-central/using-with-arduino-ide)
+- [Grand Central variant pin definitions](https://github.com/adafruit/ArduinoCore-samd/blob/master/variants/grand_central_m4/variant.h)
