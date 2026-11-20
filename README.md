@@ -1,28 +1,50 @@
-# SAMD51 firmware journal 🔧
+# SAMD51 Firmware Journal
 
-I joined UCLA's Aharoni Lab as an undergrad research assistant in November 2026, and I'm learning microcontroller firmware so I can help optimize and migrate the firmware for the wireless Miniscope Zero. This repo is where I keep my notes and experiments while I work through Microchip University's course on an Adafruit Grand Central M4 (ATSAMD51P20A, ARM Cortex-M4F at 120 MHz).
+Notes and firmware experiments for learning ARM Cortex-M4F microcontroller programming on the Adafruit Grand Central M4 (ATSAMD51P20A), following Microchip University's [Getting Started with Writing Code for Microchip Arm Cortex MCUs](https://mu.microchip.com/getting-started-with-writing-code-for-the-microchip-arm-cortex-microcontrollers). Preparation for firmware work on the wireless Miniscope Zero in UCLA's Aharoni Lab.
 
-<img src="images/blink-grand-central.gif" alt="Grand Central M4 on a desk with its red L LED blinking" width="420">
+<img src="images/blink-grand-central.gif" alt="Register-level blink running on the Grand Central M4" width="420">
 
-## What I've done so far
+## Contents
 
-- [Lesson 01: microcontroller basics](lessons/01-microcontroller-basics.md). My notes on clock domains, device headers, clock sync (`SYNCBUSY`), the DFLL, GPIO registers, the NVIC and timers.
-- [LED blink](projects/01-led-blink/README.md). I got the red `L` LED blinking with Arduino calls first, then by writing the `PORT` registers directly with `OUTTGL`. The gif above is the register version.
+| Document | Topics | Status |
+|----------|--------|--------|
+| [Lesson 01: Microcontroller basics](lessons/01-microcontroller-basics.md) | Clock domains, device headers, `SYNCBUSY`, DFLL, GPIO registers, NVIC, timer counters | Complete |
+| [01 · LED blink](projects/01-led-blink/README.md) | Arduino calls and direct `PORT` register writes (`OUTTGL`) | Runs on hardware; timing not measured |
 
-## What's next
+## Requirements
 
-I haven't measured anything yet. Next I want to check the blink timing on an oscilloscope and step through the code with an Atmel-ICE, then keep going with lesson 02.
+- **Hardware.** Adafruit Grand Central M4 Express (ATSAMD51P20A, Cortex-M4F, 120 MHz, 1 MB Flash, 256 KB SRAM) and a USB data cable.
+- **Software.** Arduino IDE 2.x or Arduino CLI with the Adafruit SAMD Boards core.
 
 ## Run the blink
 
-1. In Arduino IDE 2.x, add `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json` as a board manager URL and install Adafruit SAMD Boards.
-2. Pick Adafruit Grand Central M4 (SAMD51) and your board's port.
-3. Open `projects/01-led-blink/src/blink/blink.ino` and upload it.
+```bash
+arduino-cli core update-index --additional-urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+arduino-cli core install adafruit:samd@1.7.17 --additional-urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+arduino-cli compile --fqbn adafruit:samd:adafruit_grandcentral_m4 projects/01-led-blink/src/blink
+arduino-cli upload --port COM7 --fqbn adafruit:samd:adafruit_grandcentral_m4 projects/01-led-blink/src/blink
+```
 
-The `L` LED (D13 / PB01) should blink about every 500 ms. CLI commands and troubleshooting are in the [blink README](projects/01-led-blink/README.md).
+Replace `COM7` with the port from `arduino-cli board list`. The sketch toggles the red `L` LED (D13 / PB01) with a 500 ms delay. Arduino IDE steps and troubleshooting are in the [blink README](projects/01-led-blink/README.md).
 
-## Sources
+## Repository structure
 
-- [Microchip University: Getting Started with Writing Code for Microchip Arm Cortex MCUs](https://mu.microchip.com/getting-started-with-writing-code-for-the-microchip-arm-cortex-microcontrollers)
+```
+samd51-firmware-journal/
+├── lessons/            # Microchip University notes, one file per lesson
+├── projects/
+│   └── 01-led-blink/
+│       └── src/blink/  # Arduino sketch
+└── images/             # README media
+```
+
+## Next
+
+- Measure blink timing with an oscilloscope
+- Step through the blink with an Atmel-ICE (SWD)
+- Lesson 02
+
+## References
+
 - [Adafruit Grand Central M4 guide](https://learn.adafruit.com/adafruit-grand-central)
-- [SAM D5x/E5x datasheet](https://www.microchip.com/content/dam/mchp/documents/MCU32/ProductDocuments/DataSheets/SAM-D5x-E5x-Family-Data-Sheet-DS60001507.pdf)
+- [SAM D5x/E5x family datasheet](https://www.microchip.com/content/dam/mchp/documents/MCU32/ProductDocuments/DataSheets/SAM-D5x-E5x-Family-Data-Sheet-DS60001507.pdf)
