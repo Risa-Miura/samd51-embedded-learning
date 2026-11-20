@@ -27,16 +27,11 @@ arduino-cli upload --port COM7 --fqbn adafruit:samd:adafruit_grandcentral_m4 pro
 
 Replace `COM7` with the port from `arduino-cli board list`. The sketch toggles the red `L` LED (D13 / PB01) with a 500 ms delay. Arduino IDE steps and troubleshooting are in the [blink README](projects/01-led-blink/README.md).
 
-## Repository structure
+## Project structure
 
-```
-samd51-firmware-journal/
-├── lessons/            # Microchip University notes, one file per lesson
-├── projects/
-│   └── 01-led-blink/
-│       └── src/blink/  # Arduino sketch
-└── images/             # README media
-```
+- `lessons/` — Microchip University notes, one file per lesson
+- `projects/01-led-blink/` — LED blink Arduino sketch and setup guide
+- `images/` — README media
 
 ## Next
 
