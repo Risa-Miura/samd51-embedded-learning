@@ -8,6 +8,10 @@ My notes and experiments while learning microcontroller firmware from the regist
 
 **Current status (Nov 2026):** Lesson 01 is complete. The LED blink runs on the board, both with Arduino calls and with direct `PORT` register writes (`OUTTGL`). Nothing has been measured yet; oscilloscope timing and Atmel-ICE stepping are next.
 
+<img src="images/blink-grand-central.gif" alt="Grand Central M4 on a desk with its red L LED blinking" width="420">
+
+*The red `L` LED blinking on my Grand Central M4, driven by the register-level version (`PORT->Group[1].OUTTGL`).*
+
 ## What's here
 
 | Path | What it is | Status |
